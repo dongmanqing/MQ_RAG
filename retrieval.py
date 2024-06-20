@@ -6,8 +6,9 @@ class KnowledgeRetriever:
     knowledge_db_root_name = "knowledge_db_"
 
     def __init__(self,
-                 use_public_embedding=True):
-        self.embedding_model = EmbeddingModel(use_public=use_public_embedding).get_embeddings()
+                 use_public_embedding=True,
+                 **kwargs):
+        self.embedding_model = EmbeddingModel(use_public=use_public_embedding, **kwargs).get_embeddings()
         if use_public_embedding:
             knowledge_db_pth = self.knowledge_db_root_name + "public_embedding"
         else:

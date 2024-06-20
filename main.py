@@ -4,8 +4,9 @@ from retrieval import KnowledgeRetriever
 class RAGInfo:
     def __init__(self,
                  use_public_embedding=True,
-                 top_k=3):
-        self.retriever = KnowledgeRetriever(use_public_embedding=use_public_embedding)
+                 top_k=3,
+                 **kwargs):
+        self.retriever = KnowledgeRetriever(use_public_embedding=use_public_embedding, **kwargs)
         self.top_k = top_k
 
     def get_info(self, query):
