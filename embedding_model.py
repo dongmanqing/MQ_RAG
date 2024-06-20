@@ -1,30 +1,31 @@
-from transformers import AutoTokenizer, AutoModel
-from openai import OpenAI
+from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_openai import OpenAIEmbeddings
 
 
 class EmbeddingModel:
     public_model = "sentence-transformers/all-MiniLM-L6-v2"
-    api_model = OpenAI(api_key="")
+    api_model = ""
 
-    def __init__(self, use_public=True):
+    def __init__(self, use_public=True, **kwargs):
         self.use_public = use_public
         if use_public:
-            self.tokenizer = AutoTokenizer.from_pretrained(self.public_model)
-            self.model = AutoModel.from_pretrained(self.public_model)
+            self.embedding_model = self.public_embed(**kwargs)
         else:
-            self.model = self.api_model
+            self.embedding_model = self.api_embed()
 
-    def embed(self, doc):
-        return self.public_embed(doc) if self.use_public else self.api_embed(doc)
+    def get_embeddings(self):
+        return self.embedding_model
 
-    def public_embed(self, doc):
-        inputs = self.tokenizer(doc, return_tensors="pt", truncation=True, padding=True)
-        outputs = self.model(**inputs)
-        return outputs.last_hidden_state.mean(dim=1).detach().numpy()
-
-    def api_embed(self, doc):
-        response = self.api_model.embeddings.create(
-            model="text-embedding-ada-002",
-            input=[doc]
+    def public_embed(self, **kwargs):
+        model_kwargs = kwargs.get("model_kwargs", {'device': 'cpu'})
+        encode_kwargs = kwargs.get("encode_kwargs", {'normalize_embeddings': False})
+        embeddings_model = HuggingFaceEmbeddings(
+            model_name=self.public_model,
+            model_kwargs=model_kwargs,
+            encode_kwargs=encode_kwargs
         )
-        return response.data[0].embedding
+        return embeddings_model
+
+    def api_embed(self):
+        embeddings_model = OpenAIEmbeddings(api_key=self.api_model_key)
+        return embeddings_model
