@@ -1,10 +1,10 @@
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_openai import OpenAIEmbeddings
+from langchain_community.embeddings.openai import OpenAIEmbeddings
 
 
 class EmbeddingModel:
     public_model = "sentence-transformers/all-MiniLM-L6-v2"
-    api_model = ""
+    api_model_key = ""
 
     def __init__(self, use_public=True, **kwargs):
         self.use_public = use_public
