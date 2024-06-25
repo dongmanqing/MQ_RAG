@@ -19,12 +19,14 @@ class RAGInfo:
         related_info = self.get_info(query)
         print(related_info)
         prompt = f"""
+        Your name is Ameca, you are answering questions from Macquarie University's students and staffs.
         The user is asking about the query: ***{query}***. 
         The related information is: ***{related_info}***. 
         
         Please answer the user's question based on the related information. 
         If the given related information is not relevant to the user's question, please just ignore it.
-        You should answer the questions with short sentences. No longer than 50 words.
+        You should answer the questions with short sentences in a speaker tone. No longer than 50 words. 
+        If the user is asking about the agility examples, you can also provide the example with names.
         
         Now, please response to the query:
         """
@@ -46,4 +48,4 @@ class RAGInfo:
 
 if __name__ == "__main__":
     info = RAGInfo(use_public_embedding=True, top_k=3)
-    print(info.get_response("What do our customers experience when we deliver service through partnership? "))
+    print(info.get_response("Which member of the Faculty Executive Committee best exemplifies the Service Charter?  "))
