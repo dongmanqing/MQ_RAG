@@ -1,4 +1,6 @@
 from retrieval import KnowledgeRetriever
+from openai import OpenAI
+client = OpenAI(api_key="")
 
 
 class RAGInfo:
@@ -15,18 +17,33 @@ class RAGInfo:
 
     def get_prompt(self, query):
         related_info = self.get_info(query)
+        print(related_info)
         prompt = f"""
         The user is asking about the query: ***{query}***. 
         The related information is: ***{related_info}***. 
         
         Please answer the user's question based on the related information. 
         If the given related information is not relevant to the user's question, please just ignore it.
+        You should answer the questions with short sentences. No longer than 50 words.
         
-        Now, please response to the query: ***{query}***. 
+        Now, please response to the query:
         """
         return prompt
+
+    def get_response(self, query):
+        prompt = self.get_prompt(query)
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": prompt},
+                {"role": "user", "content": query}
+            ]
+        )
+        print(response)
+        response_content = response.choices[0].message.content
+        return response_content
 
 
 if __name__ == "__main__":
     info = RAGInfo(use_public_embedding=True, top_k=3)
-    print(info.get_prompt("what's the meaning of service charter"))
+    print(info.get_response("What do our customers experience when we deliver service through partnership? "))
