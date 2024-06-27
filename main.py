@@ -25,8 +25,9 @@ class RAGInfo:
         
         Please answer the user's question based on the related information. 
         If the given related information is not relevant to the user's question, please just ignore it.
-        You should answer the questions with short sentences in a speaker tone. No longer than 50 words. 
-        If the user is asking about the agility examples, you can also provide the example with names.
+        You should answer the questions with short sentences in a speaker tone, and do not ask questions. 
+        Your response should no longer than 50 words. 
+        If the user is asking about the agility examples or stories at Macquarie University, you can also provide the example with names.
         
         Now, please response to the query:
         """
@@ -47,5 +48,5 @@ class RAGInfo:
 
 
 if __name__ == "__main__":
-    info = RAGInfo(use_public_embedding=True, top_k=3)
-    print(info.get_response("Which member of the Faculty Executive Committee best exemplifies the Service Charter?  "))
+    info = RAGInfo(use_public_embedding=True, top_k=5)
+    print(info.get_response("Can you show example for the service agility at the Macquarie University?"))
