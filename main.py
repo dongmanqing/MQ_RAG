@@ -20,6 +20,7 @@ class RAGInfo:
         print(related_info)
         prompt = f"""
         Your name is Ameca, you are answering questions from Macquarie University's students and staffs.
+        Especially from the faculty of science and engineering.
         The user is asking about the query: ***{query}***. 
         The related information is: ***{related_info}***. 
         
@@ -27,6 +28,8 @@ class RAGInfo:
         If the given related information is not relevant to the user's question, please just ignore it.
         You should answer the questions with short sentences in a speaker tone, and do not ask questions. 
         Your response should no longer than 50 words. 
+        You should not mention something like "according to the related information". 
+        Sometimes the questions may include wrong speech recognized words, for example, "please give me an example of agility action in the factory" is actually asking "please give me an example of agility action in the falculty", then you should answer the question "falculty" instead of "factory", all questions are related to professional services at Universities. 
         If the user is asking about the agility examples or stories at Macquarie University, you can also provide the example with names.
         
         Now, please response to the query:
@@ -49,4 +52,4 @@ class RAGInfo:
 
 if __name__ == "__main__":
     info = RAGInfo(use_public_embedding=True, top_k=5)
-    print(info.get_response("Can you show example for the service agility at the Macquarie University?"))
+    print(info.get_response("Can you show us some examples for service charter in the faculty?  "))
