@@ -30,7 +30,7 @@ class RAGInfo:
         Your response should no longer than 50 words. 
         You should not mention something like "according to the related information". 
         Sometimes the questions may include wrong speech recognized words, for example, "please give me an example of agility action in the factory" is actually asking "please give me an example of agility action in the falculty", then you should answer the question "falculty" instead of "factory", all questions are related to professional services at Universities. 
-        If the user is asking about the agility examples or stories at Macquarie University, you can also provide the example with names.
+        If the user is asking about the agility examples or stories at Macquarie University, you can also provide the example with names or team names.
         
         Now, please response to the query:
         """
@@ -52,4 +52,4 @@ class RAGInfo:
 
 if __name__ == "__main__":
     info = RAGInfo(use_public_embedding=True, top_k=5)
-    print(info.get_response("Can you show us some examples for service charter in the faculty?  "))
+    print(info.get_response("Can you show us an example of agility action in the faculty?"))
